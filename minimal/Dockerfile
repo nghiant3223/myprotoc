@@ -24,7 +24,6 @@ RUN GO111MODULE=on go get \
     google.golang.org/grpc/cmd/protoc-gen-go-grpc 
 ENV PATH $PATH:${GOPATH}/bin
 RUN which protoc-gen-go
-RUN which protoc-gen-go-grpc
 
 RUN mkdir ${HOME}/docker
 ENV DOCKER ${HOME}/docker
