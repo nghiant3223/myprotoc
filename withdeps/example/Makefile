@@ -7,8 +7,10 @@ gen:
 		protoc \
 		-I . \
 		-I $(CONTAINER_GOPATH)/src \
-		-I $(CONTAINER_GOPATH)/src/github.com/envoyproxy/protoc-gen-validate \
 		--go_out=. --go_opt=paths=import \
 		--go-grpc_out=. --go-grpc_opt=paths=import \
+		# For protoc-gen-validate
+		-I $(CONTAINER_GOPATH)/src/github.com/envoyproxy/protoc-gen-validate \
 		--validate_out="lang=go:." \
+		# End protoc-gen-validate
 		$(PROTOS_PATH)/*.proto
