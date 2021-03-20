@@ -1,1 +1,0 @@
-# With protoc-gen-validate Dockerfile
