@@ -1,0 +1,77 @@
+syntax = "proto3";
+package pb;
+
+option go_package = "api/v1/pb";
+
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
+message GetBuildRequest {
+  string app_identifier = 1 [(validate.rules).string.min_len = 1];
+  string version = 2 [(validate.rules).string.min_len = 1];
+  int32 build_number = 3 [(validate.rules).int32.gt = 0];
+}
+
+message GetBuildResponse {
+  Build build = 1;
+}
+
+message ListBuildsRequest {
+  string app_identifier = 1 [(validate.rules).string.min_len = 1];
+  string version = 2 [(validate.rules).string.min_len = 1];
+  int32 size = 3 [(validate.rules).int32.gt = 0];
+  int32 page = 4 [(validate.rules).int32.gt = 0];
+}
+
+message Build {
+  int64 id = 13;
+  string app_identifier = 1;
+  string app_version = 2;
+  int32 build_number = 3;
+  string status = 4;
+  string base_url = 5;
+  string url = 6;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  string uploader_urn = 10;
+  string framework_version = 11;
+  string framework_files_location = 12;
+}
+
+message ListBuildsResponse {
+  repeated Build builds = 1;
+  int64 total_items = 2;
+}
+
+message SubmitBuildRequest {
+  string app_identifier = 1;
+  string app_version = 2;
+  int32 build_number = 3;
+}
+
+message SubmitBuildResponse {
+  bool success = 1;
+  Build build = 2;
+}
+
+message BuildKey {
+  string app_identifier = 1;
+  string app_version = 2;
+  int32 build_number = 3;
+}
+
+message ListBuildsByKeysRequest {
+  repeated BuildKey keys = 2 [(validate.rules).repeated.min_items = 1];
+}
+
+message ListBuildsByKeysResponse {
+  repeated Build builds = 1;
+}
+
+message GetBuildByIDRequest {
+  int64 id = 1;
+}
+
+message GetBuildByIDResponse {
+  Build build = 1;
+}

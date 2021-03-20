@@ -3,14 +3,8 @@ package service.go;
 
 option go_package = "api/v1/pb";
 
+import "api/v1/proto/message.proto";
+
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
-}
-
-message HelloRequest {
-  string name = 1;
-}
-
-message HelloReply {
-  string message = 1;
 }

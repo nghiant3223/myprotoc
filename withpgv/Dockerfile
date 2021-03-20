@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 RUN apt update && apt upgrade -y
-RUN apt install wget tar curl unzip git -y
+RUN apt install wget tar curl unzip git build-essential -y
 
 ENV GO_VERSION 1.15.6
 RUN wget -q https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz \
@@ -21,9 +21,12 @@ RUN protoc --version
 
 RUN GO111MODULE=on go get \
     google.golang.org/protobuf/cmd/protoc-gen-go \
-    google.golang.org/grpc/cmd/protoc-gen-go-grpc 
+    google.golang.org/grpc/cmd/protoc-gen-go-grpc
 ENV PATH $PATH:${GOPATH}/bin
 RUN which protoc-gen-go
+
+RUN go get -d github.com/envoyproxy/protoc-gen-validate
+RUN cd ${GOPATH}/src/github.com/envoyproxy/protoc-gen-validate && make build
 
 RUN mkdir ${HOME}/docker
 ENV DOCKER ${HOME}/docker
