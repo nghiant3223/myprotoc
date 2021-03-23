@@ -1,18 +1,15 @@
-FROM ubuntu:20.04
+FROM golang:1.15-buster
 
 RUN apt update && apt upgrade -y
-RUN apt install wget tar curl unzip git build-essential -y
+RUN apt install curl unzip git -y
 
-ENV GO_VERSION 1.15.6
-RUN wget -q https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
 ENV PATH $PATH:/usr/local/go/bin
 RUN go version
 
 ENV HOME /home
 ENV GOPATH /home/go
 
-ENV PROTOC_VERSION 3.13.0
+ENV PROTOC_VERSION 3.15.6
 RUN PB_REL="https://github.com/protocolbuffers/protobuf/releases" \
     && curl -s -LO ${PB_REL}/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip \
     && unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d ${HOME}/.local
